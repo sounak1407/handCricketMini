@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <script src="webcam.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"> </script>
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <!-- dataset -->
+        <script src="rps_data.js"></script>
+    </head>
+    <body>
+
+        <!-- <div>
+            <video autoplay playsinline muted id="wc" width="224" height="224"></video>
+        </div> -->
+        <div class="container-bg">
+            <div class="container">
+            <section class="container-fluid" id="content">
+            <div class="row">
+              <div class="col-md-10">
+              <h1>HAND CRICKET</h1>
+              </div>
+              <div class="col-md-2">
+              <button type="button" class="btn btn-outline-info btn-lg float-right" data-toggle="modal" data-target="#myModal">Rules</button>
+              </div>
+            </div>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog"  >
+              <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content bg-fusion-900">
+                  <div class="modal-header">
+
+                    <h4 class="modal-title" >Info and Rules</h4>
+                    <button type="button" class=" btn btn-danger close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                     <!-- <div class="row">
+                        <h1>Scores</h1>
+                    </div>
+                    <h1>Scores</h1> -->
+                    <div class="row">
+
+                        <div class="col-md-2">
+                        One
+                        <img src="images/one.jpg"  class="img-thumbnail">
+                        </div>
+                        <div class="col-md-2">
+                        Two
+                        <img src="images/two.jpg" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-2">
+                        Three
+                        <img src="images/three.jpg"  class="img-thumbnail">
+                        </div>
+                        <div class="col-md-2">
+                        Four
+                        <img src="images/four.jpg" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-2">
+                        Five
+                        <img src="images/five.jpg" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-2">
+                        Six
+                        <img src="images/six.jpg" class="img-thumbnail">
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                      <li class="list-group-item">The Above Images Show the Score Values which are been shown by the computer</li>
+
+                      <li class="list-group-item">The Left Panel will show the outputs of The Computer and The Left panel Will show Player's output </li>
+                      <li class="list-group-item">For prediction of the images Click on the button below webcam which are from 1 to 6. Click on the button and Show the Image you want to Show for that number. Wait for the button to turn Green </li>
+                      <li class="list-group-item">Once all the buttons are turned green click on "Send Data".</li>
+                      <li class="list-group-item">Click on the Start Button to start the Game</li>
+                      <li class="list-group-item">Use Reset to reload the game and start from begining</li>
+                    </ul>
+                    <ul class="list-group">
+                    <li class="list-group-item active">How To Play</li>
+                    <li class="list-group-item">1. A Player is Initially Given 3 Wickets</li>
+                    <li class="list-group-item">2. Each Round is after 3 seconds after which the Scores are compared</li>
+                    <li class="list-group-item">3. If Computer Scores matches with Players Scores , Player is considered out</li>
+                    <li class="list-group-item">4. An Inning is ended after 3 wickets are fallen</li>
+                    <li class="list-group-item">5. Final Score Of the Player is updated</li>
+                    </ul>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="row">
+                        <h3>Computer</h3>
+                    </div>
+                    <!-- <div class="row"><img id="number" src="images/one.jpg"  class="img-thumbnail"></div> -->
+                    <div class="row">
+                        <span id="numberImg"></span>
+                    </div>
+                    <h4>Opponent : <span id="numberTxt">0</h4>
+                    <!-- <div id="random"></div> -->
+                    <div class="row">
+                      <div class="col-md-12">
+                      <h2>Final Score Player :
+                      <div id="fpscore"></div></h2>
+                    </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h4>Your Score</h4>
+                        <div id="pscore">0</div>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h4>Computer Score</h4>
+                        <div id="cscore">0</div>
+                      </div>
+                    </div>
+
+                    <p> Next Round In <span id="countdowntimer">3 </span> Seconds</p>
+                    <div class="row">
+                      <div class="col-md-12">
+                      Round winner
+                      <div id="winner"></div>
+                    </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <h3>ME</h3>
+                    </div>
+                    <!-- <div class="row"><img src="images/six.jpg"  class="img-thumbnail"></div> -->
+                    <video autoplay playsinline muted id="wc" width="400" height="400"></video>
+                    <div class='row'><h3>MY OUTPUT : <div id="prediction">0</div></h3></div>
+                    <!-- <div class="row"><h3><div id="prediction">0</div></h3></div> -->
+                    <div class="row">
+                      <div class="col-md-2">
+                      <button class="btn btn-warning" id="0" onclick="handleButton(this)">1</button>
+                      </div>
+                      <div class="col-md-2">
+                      <button class="btn btn-warning" id="1" onclick="handleButton(this)">2</button>
+                      </div>
+                      <div class="col-md-2">
+                      <button class="btn btn-warning" id="2" onclick="handleButton(this)">3</button>
+                      </div>
+                      <div class="col-md-2">
+                      <button class="btn btn-warning" id="3" onclick="handleButton(this)">4</button>
+                      </div>
+                      <div class="col-md-2">
+                      <button class="btn btn-warning" id="4" onclick="handleButton(this)">5</button>
+                      </div>
+                      <div class="col-md-2">
+                      <button class="btn btn-warning" id="5" onclick="handleButton(this)">6</button>
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <!-- <div id="one">One Samples:</div>
+                      <div id="two">Two Samples:</div>
+                      <div id="three">Three Samples:</div>
+                      <div id="four">Four Samples:</div>
+                      <div id="five">Five Samples:</div>
+                      <div id="six">Six Samples:</div> -->
+                      <div class="col-md-4 offset-md-4">
+                      <button class="btn btn-primary btn-block" id="train" onclick="doTraining()" >Send Data</button>
+                      </div>
+                    </div>
+                    <div class="row mt-2">
+                      <!-- <div id="dummy">Once training is complete, click 'Start Predicting' to see predictions, and 'Stop Predicting' to end</div> -->
+                      <div class="col-md-4"><button class="btn btn-primary btn-block" id="startPredicting" onclick="startPredicting()" >Start</button></div>
+                      <div class="col-md-4"><button class="btn btn-secondary  btn-block" id="stopPredicting" onclick="stopPredicting()" >Pause</button></div>
+                      <div class="col-md-4"><button class="btn btn-warning  btn-block" id="reset" onclick="startAgain()"> ReStart  </button></div>
+
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-6 offset-md-3"><button class="btn btn-danger  btn-block" id="reset" onclick="resetAll()"> Reset The Game  </button></div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="row">
+                <button onclick="start();" class="btn btn-primary" id="start">Start</button>
+                <button onclick="stop()" class="btn btn-danger">Stop</button>
+            </div> -->
+
+          <!-- Content here -->
+            </section>
+            </div>
+        </div>
+
+
+    </body>
+    <script src="index.js"></script>
+    <!-- <script >
+        // const webcam = new Webcam(document.getElementById('wc'));           // webcam class in Webcam.js
+        // webcam.setup();
+
+        var t ,scoreTimer;
+        var timeleft = 4;
+
+        function shuffle(){
+          var images1 = [],
+          index1 = 0;
+          images1[0] = "<div><img src='images/one.jpg' class='img-thumbnail' ></div>";
+          images1[1] = "<div><img src='images/two.jpg' class='img-thumbnail'></div>";
+          images1[2] = "<div><img src='images/three.jpg' class='img-thumbnail' ></div>";
+          images1[3] = "<div><img src='images/four.jpg' class='img-thumbnail' ></div>";
+          images1[4] = "<div><img src='images/five.jpg' class='img-thumbnail' ></div>";
+          images1[5] = "<div><img src='images/six.jpg' class='img-thumbnail' ></div>";
+          //selecting random number
+          index1 = Math.floor(Math.random() * images1.length);
+          //displaying random image out of array
+          // document.write(images1[index1]);
+          document.getElementById("numberTxt").textContent = index1+1;
+          return document.getElementById("numberImg").innerHTML=images1[index1];
+        }
+
+        function start(){
+            t = setInterval(shuffle,4000);
+            scoreTimer = setInterval(countDown,1000);
+        }
+
+        function stop(){
+            clearInterval(t);
+            clearInterval(scoreTimer);
+        }
+
+
+
+        function countDown(){
+        timeleft-;
+        document.getElementById("countdowntimer").textContent = timeleft;
+        if(timeleft <= 0)
+            timeleft = 3;
+        }
+
+
+    </script> -->
+
+</html>

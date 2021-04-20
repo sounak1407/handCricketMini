@@ -1,0 +1,54 @@
+.container-bg {
+    width:100%;
+    height: 100vh;
+    color: #fff;
+    background: linear-gradient(-45deg,#EE7752,#E73C7E,#23A6D5,#23D5AB);
+    background-size: 400% 400%;
+    position:relative;
+    animation: change 100s ease-in-out infinite;
+}
+
+h1 {
+  font-weight: bold;
+  color: #fff;
+  font-size: 50px;
+}
+
+#content {
+	padding: 25px 25px 25px 25px;
+ 	background-color: rgba(255,255,255,0.5);
+  height: 100vh;
+  /* height: 100%; */
+}
+
+
+@keyframes change{
+	0%{
+		background-position: 0 50%;
+	}
+	50%{
+		background-position: 100% 50%;
+	}
+	100%{
+		background-position: 0 50%;
+	}
+}
+
+#numberImg{
+    width:375px;
+    height: 375px;
+}
+
+
+.modal-header{
+  background-color: darkblue;
+  color: white;
+}
+.modal-content {
+  color: black;
+}
+
+.modal-body.h1{
+  background-color: lightblue;
+  color: white;
+}
